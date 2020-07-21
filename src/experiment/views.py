@@ -8,10 +8,10 @@ from .models import Post
 class TestView(APIView):
 
     def get(self, request, *args, **kwargs):
-        data = {
-            'name'  :   'marzooq',
-            'time'  :   timezone.now(),
-        }
+        # data = {
+        #     'name'  :   'marzooq',
+        #     'time'  :   timezone.now(),
+        # }
         qs = Post.objects.all()
         serializer = PostSerializer(qs, many=True)
         return Response(serializer.data)
