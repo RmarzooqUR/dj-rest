@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth import tokens
 # Create your models here.
 class Post(models.Model):
     created_time = models.DateTimeField(auto_now_add=True)
