@@ -5,7 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from django.utils import timezone
 from .serializers import PostSerializer
 from .models import Post
-
+from rest_framework import generics
 
 class TestView(APIView):
 
@@ -32,3 +32,23 @@ class TestApiGetView(APIView):
         qs = Post.objects.get(title=title)
         post = PostSerializer(qs)
         return Response(post.data)
+
+class newPage(generics.ListAPIView):
+    """
+    instead of specifying the get method in TestView we just specify the queryset and 
+    serializer class in newPage which extends ListAPIView which extends generic APIView
+    """
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+
+class newPage2(generics.CreateAPIView):
+    serializer_class = PostSerializer
+
+class NewPageThree(generics.DestroyAPIView):
+    """
+    Less code for deleting a Post object
+    """
+    def delete(self, request, *args, **kwargs):
+        pk = kwargs['pk']
+        self.queryset = Post.objects.filter(pk=pk) #it works with filter but not with get
+        return self.destroy(request, *args, **kwargs)
